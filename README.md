@@ -9,3 +9,10 @@ Things scraped:
 * WKO link for more information
 
 It is a bit over the top, since the script gives out the data in the shell before writing it in a csv file. 
+Also, it only uses firefox via the geckodriver. Chrome, etc isn't supported.
+I also don't know if it works in windows. It should, but I haven't tried it.
+Made with python 3.7.3
+
+
+##Important! 
+Don't forget to set the PATH to the geckodriver before running the scraper! Selenium is weird like that.
