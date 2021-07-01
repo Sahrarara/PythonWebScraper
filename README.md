@@ -14,5 +14,5 @@ I also don't know if it works in windows. It should, but I haven't tried it.
 Made with python 3.7.3
 
 
-##Important! 
+## Important!
 Don't forget to set the PATH to the geckodriver before running the scraper! Selenium is weird like that.
