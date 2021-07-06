@@ -15,4 +15,5 @@ Made with python 3.7.3
 
 
 ## Important!
+Download Geckodriver! 
 Don't forget to set the PATH to the geckodriver before running the scraper! Selenium is weird like that.
