@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import csv
 import re
+import datetime
 
 
 print('Program has started')
@@ -52,7 +53,7 @@ addrlist=[]
 linklist=[]
 i=1
 print('Results are being loaded. Please wait.')
-company_name=driver.find_elements_by_class_name('link-list__link')					#here we get most data. Only the address is hidden behind the href link
+company_name=driver.find_elements_by_class_name('link-list__link')					#here we get all the data which you can find in the readme.md and prints it
 company_description=driver.find_elements_by_class_name('link-list__desc')
 wko_link=driver.find_elements_by_class_name('link-list__link')
 for x in range(len(company_name)):
@@ -65,24 +66,27 @@ print('appended all' , i-1 , 'items. Starting next task')
 
 j=1
 try:
-	for x in range(len(linklist)):									#uses the links in the linklist to open the site and scrape the address from there.
+	for x in range(len(linklist)):
 		if linklist[x]!='https://www.wko.at/service/neuzugaenge.html#':
 			driver.get(linklist[x])
 			WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.row:nth-child(2) > div:nth-child(1) > p:nth-child(2) > span:nth-child(2)')))
 			addr=driver.find_element_by_css_selector('div.row:nth-child(2) > div:nth-child(1) > p:nth-child(2) > span:nth-child(2)').text
 			addrlist.append(re.sub("\(kann vom Gründungsdatum abweichen\)", "", addr))
-			print('got address nr.' , j)							#printing the number so you can easier find it in the csv file
+			print('got address nr.' , j)
 			j=j+1
 		else:
-			addrlist.append('bad link, thus no data')					#sometimes there is a link to the wko site itself. that's considered a bad link
+			addrlist.append('bad link')
 			print('bad link')
 			j=j+1
 except:
 	print('an error has occured')
 
 print('Writing data in csv')										#a print command so you know that the program is working. it just takes a while
+date = re.sub("/","",datetime.datetime.now().strftime("%x"))
+nameoffile = date + '.csv'										#csv filename is going to be the date of when the file has been made
+filename = re.sub(" " , "" , nameoffile)
 j=1
-with open('newCompanies.csv', 'w', newline='') as file:							#the data is being written in a csv file.
+with open(filename, 'w', newline='') as file:								#the data is being written in a csv file.
 	writer = csv.writer(file)
 	writer.writerow(['', 'Firmenname', 'Adresse', 'Beschreibung', 'WKO-Link'])
 	for x in range(len(namelist)):
